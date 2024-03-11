@@ -12,8 +12,10 @@ export default function TodoApp() {
 }
 
 function LoginComponent() {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+    const [showErrorMessage, setErrorMessage] = useState(false)
 
     function handleUsernameChange(event){
         // console.log(event.target.value)
@@ -23,9 +25,37 @@ function LoginComponent() {
         // console.log(event.target.value)
         setPassword(event.target.value)
     }
+
+    function handleSubmit(event){
+        // console.log(`${username}-${password}`)
+        if( username === 'harshit' && password === 'qwerty'){
+            setShowSuccessMessage(true);
+            setErrorMessage(false);
+        }else{
+            setShowSuccessMessage(false);
+            setErrorMessage(true);
+        }
+    }
+
+    function SuccessMessageComponent(){
+        if(showSuccessMessage){
+            return <div className="successMessage" > Authenticated Successfully </div>
+        }
+        return null
+    }
+    
+    function ErrorMessageComponent(){
+        if(showErrorMessage)
+            return <div className="errorMessage" > Authentication Failed. Please check your credentials </div>
+        return null
+    }
+
+
     return (
         <div className="Login>">
-
+            
+            <SuccessMessageComponent />
+                <ErrorMessageComponent />
             <div className="LoginForm">
                 <div>
                     <label> User Name </label>
@@ -37,7 +67,7 @@ function LoginComponent() {
                     <input type="password" name="password" value={password} onChange={handlePasswordChange}/>
                 </div>
                 <div>
-                    <button type="button" name="login" >
+                    <button type="button" name="login" onClick={handleSubmit}>
                         LOGIN
                     </button>
                 </div>
@@ -55,3 +85,5 @@ function WelcomeComponent() {
         </div>
     )
 }
+
+

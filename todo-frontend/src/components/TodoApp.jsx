@@ -7,10 +7,12 @@ export default function TodoApp() {
         <div className="TodoApp">
             <BrowserRouter >
             <Routes>
-                <Route path='/' element={<LoginComponent />}></Route>
-                <Route path='/login' element={<LoginComponent />}></Route>
-                <Route path='/welcome/:username' element={<WelcomeComponent/>}></Route>
-                <Route path='/*' element={<ErrorComponent/>}></Route>
+                <Route path='/' element={<LoginComponent />} /> 
+                <Route path='/login' element={<LoginComponent />} />
+                <Route path='/welcome/:username' element={<WelcomeComponent/>} />
+                <Route path='/todos' element={<ListTodosComponent/>} />
+                {/* error route should be at the last */}
+                <Route path='/*' element={<ErrorComponent/>} />
             </Routes>
             </BrowserRouter>
         </div>
@@ -98,3 +100,34 @@ function ErrorComponent() {
     )
 }
 
+
+function ListTodosComponent() {
+    const todos = [{ id:1 , description : "DISTRIBUTED SYSTEM PROJECT"},
+    { id:2 , description : "POIS PROJECT"},
+    { id:3 , description : "UIUDP PROJECT"}]
+    return (
+        <div className="ListTodosComponent">
+            <h1>Things to do</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>DESCRIPTION</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {
+                    todos.map(
+                        todo =>  <tr key={todo.id}> 
+
+                                    <td>{todo.id}</td> 
+                                    <td> {todo.description}</td>
+                                </tr>
+                    )}
+                </tbody>
+            </table>
+
+        </div>
+    )
+}

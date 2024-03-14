@@ -24,23 +24,16 @@ function LoginComponent() {
     }
 
     function handleSubmit(event) {
-        // console.log(`${username}-${password}`)
-        if (username === 'harshit' && password === 'qwerty') {
-                authContext.setAuthenticated(true);
-            setShowSuccessMessage(true);
-            setErrorMessage(false);
+        if( authContext.login(username,password) ){
             navigate(`/welcome/${username}`)
-        } else {
-            authContext.setAuthenticated(false);
-            setShowSuccessMessage(false);
-            setErrorMessage(true);
+        }else{
+            setErrorMessage(true)
         }
     }
 
     return (
         <div className="Login>">
             <h1> LOGIN </h1>
-            {showSuccessMessage && <div className="successMessage" > Authenticated Successfully </div>}
             {showErrorMessage && <div className="errorMessage" > Authentication Failed. Please check your credentials </div>}
             <div className="LoginForm">
                 <div>

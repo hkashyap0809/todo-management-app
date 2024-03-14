@@ -12,19 +12,26 @@ export const useAuth = () => useContext(AuthContext)
 function AuthProvider({children}){
 
     //3. put some values state in the context
-    const [number, setNumber] = useState(10)
     const [ isAuthenticated, setAuthenticated ] = useState(false)
 
+    function login(username,password){
+        if (username === 'harshit' && password === 'qwerty') {
+            console.log('Authentication success')
+            setAuthenticated(true);
+            return true;
+        } else {
+            console.log('Authentication failed')
+            setAuthenticated(false);
+            return false;
+        }
+    }
 
-    const valueToBeShared = {number, isAuthenticated, setAuthenticated }
-
-    // setInterval(
-    //     () => setNumber(number+1),
-    //     2000
-    // )
+    function logout(){
+        setAuthenticated(false)
+    }
 
     return (
-        <AuthContext.Provider value={valueToBeShared}>
+        <AuthContext.Provider value={{ isAuthenticated ,login, logout} }>
             {children}
         </AuthContext.Provider>
     )

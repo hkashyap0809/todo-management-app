@@ -13,14 +13,18 @@ function AuthProvider({children}){
 
     //3. put some values state in the context
     const [number, setNumber] = useState(10)
+    const [ isAuthenticated, setAuthenticated ] = useState(false)
 
-    setInterval(
-        () => setNumber(number+1),
-        2000
-    )
+
+    const valueToBeShared = {number, isAuthenticated, setAuthenticated }
+
+    // setInterval(
+    //     () => setNumber(number+1),
+    //     2000
+    // )
 
     return (
-        <AuthContext.Provider value={{number}}>
+        <AuthContext.Provider value={valueToBeShared}>
             {children}
         </AuthContext.Provider>
     )

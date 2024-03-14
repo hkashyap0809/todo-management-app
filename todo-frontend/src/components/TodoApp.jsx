@@ -6,16 +6,16 @@ import HeaderComponent from './HeaderComponent';
 import ListTodosComponent from './ListTodosComponent';
 import WelcomeComponent from './WelcomeComponent';
 import ErrorComponent from './ErrorComponent';
+import AuthProvider from './security/AuthContext'
 import './TodoApp.css'
 
 export default function TodoApp() {
     return (
         <div className="TodoApp">
-
+            <AuthProvider>
             <BrowserRouter >
                 <HeaderComponent />
                 <Routes>
-
                     <Route path='/' element={<LoginComponent />} />
                     <Route path='/login' element={<LoginComponent />} />
                     <Route path='/welcome/:username' element={<WelcomeComponent />} />
@@ -26,13 +26,11 @@ export default function TodoApp() {
                 </Routes>
                 {/* <FooterComponent /> */}
             </BrowserRouter>
+            </AuthProvider>
 
         </div>
     )
 }
-
-
-
 
 
 

@@ -117,9 +117,9 @@ function ListTodosComponent() {
     ]
 
     return (
-        <div className="ListTodosComponent">
+        <div className="container">
             <h1>Things to do</h1>
-            <table>
+            <table className="table">
                 <thead>
                     <tr>
                         <td>ID</td>

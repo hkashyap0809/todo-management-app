@@ -1,10 +1,9 @@
-
-
-
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 //1. create a context
 export const AuthContext = createContext()
+
+export const useAuth = () => useContext(AuthContext)
 
 
 //2. share the created context with other components
@@ -13,7 +12,12 @@ export const AuthContext = createContext()
 function AuthProvider({children}){
 
     //3. put some values state in the context
-    const [number, setNumber] = useState(0)
+    const [number, setNumber] = useState(10)
+
+    setInterval(
+        () => setNumber(number+1),
+        2000
+    )
 
     return (
         <AuthContext.Provider value={{number}}>

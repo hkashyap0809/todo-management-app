@@ -1,23 +1,26 @@
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate , useParams , Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate, useParams, Link } from 'react-router-dom';
 import './TodoApp.css'
 
 export default function TodoApp() {
     return (
         <div className="TodoApp">
-            <HeaderComponent />
+
             <BrowserRouter >
-            <Routes>
-                <Route path='/' element={<LoginComponent />} /> 
-                <Route path='/login' element={<LoginComponent />} />
-                <Route path='/welcome/:username' element={<WelcomeComponent/>} />
-                <Route path='/todos' element={<ListTodosComponent/>} />
-                <Route path="/logout" element ={ <LogoutComponent/>} />
-                {/* error route should be at the last */}
-                <Route path='/*' element={<ErrorComponent/>} />
-            </Routes>
+                <HeaderComponent />
+                <Routes>
+
+                    <Route path='/' element={<LoginComponent />} />
+                    <Route path='/login' element={<LoginComponent />} />
+                    <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                    <Route path='/todos' element={<ListTodosComponent />} />
+                    <Route path="/logout" element={<LogoutComponent />} />
+                    {/* error route should be at the last */}
+                    <Route path='/*' element={<ErrorComponent />} />
+                </Routes>
+                <FooterComponent />
             </BrowserRouter>
-            <FooterComponent />
+
         </div>
     )
 }
@@ -30,22 +33,22 @@ function LoginComponent() {
 
     const navigate = useNavigate();
 
-    function handleUsernameChange(event){
+    function handleUsernameChange(event) {
         // console.log(event.target.value)
         setUsername(event.target.value)
     }
-    function handlePasswordChange(event){
+    function handlePasswordChange(event) {
         // console.log(event.target.value)
         setPassword(event.target.value)
     }
 
-    function handleSubmit(event){
+    function handleSubmit(event) {
         // console.log(`${username}-${password}`)
-        if( username === 'harshit' && password === 'qwerty'){
+        if (username === 'harshit' && password === 'qwerty') {
             setShowSuccessMessage(true);
             setErrorMessage(false);
             navigate(`/welcome/${username}`)
-        }else{
+        } else {
             setShowSuccessMessage(false);
             setErrorMessage(true);
         }
@@ -59,12 +62,12 @@ function LoginComponent() {
             <div className="LoginForm">
                 <div>
                     <label> User Name </label>
-                    <input type="text" name="username" value={username} onChange={handleUsernameChange}/>
+                    <input type="text" name="username" value={username} onChange={handleUsernameChange} />
                 </div>
 
                 <div>
                     <label> Password </label>
-                    <input type="password" name="password" value={password} onChange={handlePasswordChange}/>
+                    <input type="password" name="password" value={password} onChange={handlePasswordChange} />
                 </div>
                 <div>
                     <button type="button" name="login" onClick={handleSubmit}>
@@ -83,7 +86,7 @@ function WelcomeComponent() {
     // const params = useParams()
     const { username } = useParams()
     console.log(username)
-    
+
     return (
         <div className="WelcomeComponent">
             <h1> Welcome {username}</h1>
@@ -108,12 +111,12 @@ function ErrorComponent() {
 function ListTodosComponent() {
 
     const today = new Date();
-    const targetDate = new Date(today.getFullYear()+12, today.getMonth(), today.getDay())
+    const targetDate = new Date(today.getFullYear() + 12, today.getMonth(), today.getDay())
 
     const todos = [
-        { id:1 , description : "DISTRIBUTED SYSTEM PROJECT", done:false , targetDate : targetDate },
-        { id:2 , description : "POIS PROJECT", done:false , targetDate : targetDate },
-        { id:3 , description : "UIUDP PROJECT", done:true , targetDate : targetDate },
+        { id: 1, description: "DISTRIBUTED SYSTEM PROJECT", done: false, targetDate: targetDate },
+        { id: 2, description: "POIS PROJECT", done: false, targetDate: targetDate },
+        { id: 3, description: "UIUDP PROJECT", done: true, targetDate: targetDate },
     ]
 
     return (
@@ -131,15 +134,15 @@ function ListTodosComponent() {
 
                 <tbody>
                     {
-                    todos.map(
-                        todo =>  <tr key={todo.id}> 
+                        todos.map(
+                            todo => <tr key={todo.id}>
 
-                                    <td>{todo.id}</td> 
-                                    <td> {todo.description}</td>
-                                    <td> {todo.done.toString()}</td>
-                                    <td> {todo.targetDate.toDateString()}</td>
-                                </tr>
-                    )}
+                                <td>{todo.id}</td>
+                                <td> {todo.description}</td>
+                                <td> {todo.done.toString()}</td>
+                                <td> {todo.targetDate.toDateString()}</td>
+                            </tr>
+                        )}
                 </tbody>
             </table>
 
@@ -149,27 +152,45 @@ function ListTodosComponent() {
 
 function HeaderComponent() {
     return (
-        <div className="header">
-            Header <hr />
-        </div>
+        <header className="border-bottom border-light border-5 mb-5 p-2">
+            <div className="container">
+                <div className="row">
+                    <nav className="navbar navbar-expand-lg">
+                        <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.github.com/hkashyap0809"> GITHUB</a>
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav">
+                                <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/harshit">Home</Link></li>
+                                <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                            </ul>
+                        </div>
+                        <ul className="navbar-nav">
+                            <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
+                            <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
     )
 }
 
 
 function FooterComponent() {
     return (
-        <div className="footer">
-             <hr />
-             Footer
-        </div>
+        <footer className="footer">
+            <div className="container">
+                Footer
+            </div>
+        </footer>
     )
 }
 
 function LogoutComponent() {
     return (
         <div className="LogoutComponent">
-             <h1> Logged Out</h1>
-             <div>Thank you</div>
+            <h1> Logged Out</h1>
+            <div>Thank you</div>
         </div>
     )
 }

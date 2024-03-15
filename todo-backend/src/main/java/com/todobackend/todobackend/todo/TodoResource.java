@@ -27,7 +27,7 @@ public class TodoResource {
 		return todoService.findById(id);
 	}
 	
-	@DeleteMapping(path="/user/{username}/todos/{id}")
+	@DeleteMapping(path="/users/{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable Integer id){
 		todoService.deleteById(id);
 		return ResponseEntity.noContent().build();

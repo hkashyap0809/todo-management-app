@@ -18,8 +18,6 @@ function WelcomeComponent() {
         .then( (response) =>  successResponse(response))
         .catch( (error) => errorResponse(error))
         .finally( () => console.log('cleanup') )
-
-
     }
 
 

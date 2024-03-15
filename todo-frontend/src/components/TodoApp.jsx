@@ -8,11 +8,12 @@ import WelcomeComponent from './WelcomeComponent';
 import ErrorComponent from './ErrorComponent';
 import AuthProvider, { useAuth } from './security/AuthContext'
 import './TodoApp.css'
+import TodoComponent from './TodoComponent';
 
 
-function AuthenticatedRoute({children}){
+function AuthenticatedRoute({ children }) {
     const authContext = useAuth()
-    if( authContext.isAuthenticated )   return children;
+    if (authContext.isAuthenticated) return children;
     return <Navigate to="/" ></Navigate>
 }
 
@@ -20,36 +21,43 @@ export default function TodoApp() {
     return (
         <div className="TodoApp">
             <AuthProvider>
-            <BrowserRouter >
-                <HeaderComponent />
-                <Routes>
-                    <Route path='/' element={<LoginComponent />} />
-                    <Route path='/login' element={<LoginComponent />} />
+                <BrowserRouter >
+                    <HeaderComponent />
+                    <Routes>
+                        <Route path='/' element={<LoginComponent />} />
+                        <Route path='/login' element={<LoginComponent />} />
 
 
-                    <Route path='/welcome/:username' element={
-                    <AuthenticatedRoute >
-                        <WelcomeComponent />
-                    </AuthenticatedRoute>
-                    } />
-                    <Route path='/todos' element={
-                    
-                    <AuthenticatedRoute >
-                    <ListTodosComponent />
-                    </AuthenticatedRoute>} 
-                    />
+                        <Route path='/welcome/:username' element={
+                            <AuthenticatedRoute >
+                                <WelcomeComponent />
+                            </AuthenticatedRoute>
+                        } />
 
-                    <Route path="/logout" element={
-                    <AuthenticatedRoute>
-                    <LogoutComponent />
-                    </AuthenticatedRoute>
-                    } />
-                    
-                    {/* error route should be at the last */}
-                    <Route path='/*' element={<ErrorComponent />} />
-                </Routes>
-                {/* <FooterComponent /> */}
-            </BrowserRouter>
+                        <Route path='/todos' element={
+
+                            <AuthenticatedRoute >
+                                <ListTodosComponent />
+                            </AuthenticatedRoute>}
+                        />
+
+                        <Route path='/todo/:id' element={
+                            <AuthenticatedRoute >
+                                <TodoComponent />
+                            </AuthenticatedRoute>
+                        } />
+
+                        <Route path="/logout" element={
+                            <AuthenticatedRoute>
+                                <LogoutComponent />
+                            </AuthenticatedRoute>
+                        } />
+
+                        {/* error route should be at the last */}
+                        <Route path='/*' element={<ErrorComponent />} />
+                    </Routes>
+                    {/* <FooterComponent /> */}
+                </BrowserRouter>
             </AuthProvider>
 
         </div>

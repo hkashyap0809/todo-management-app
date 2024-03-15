@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { retreiveAllTodosForUsernameApi, deleteTodoApi } from "./api/TodoApiService";
+import { useAuth } from "./security/AuthContext";
 
 function ListTodosComponent() {
 
@@ -8,7 +9,9 @@ function ListTodosComponent() {
 
     const [todos, setTodos] = useState([])
     const [message,setMessage] = useState();   
-    const authContext =   
+    const authContext = useAuth();
+    const username = authContext.username;
+
 
     // useEffect is a hook to tell React that the component needs to do something after render
     useEffect(
@@ -17,7 +20,7 @@ function ListTodosComponent() {
 
     function refreshTodos() {
 
-        retreiveAllTodosForUsernameApi('harshit')
+        retreiveAllTodosForUsernameApi(username)
             .then((response) => {                
                 setTodos(response.data)
             })
@@ -25,12 +28,13 @@ function ListTodosComponent() {
     }
 
     function deleteTodo(id){
-        deleteTodoApi('harshit',id)
+        deleteTodoApi(username,id)
         .then(
             //display message
             //update todos list
 
             () => {
+                console.log(authContext)
                 setMessage(`Delete of todo with id : ${id} successful`)
                 refreshTodos()
             }

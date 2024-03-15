@@ -13,11 +13,13 @@ function AuthProvider({children}){
 
     //3. put some values state in the context
     const [ isAuthenticated, setAuthenticated ] = useState(false)
+    const [username, setUsername] = useState(null)
 
     function login(username,password){
-        if (username === 'harshit' && password === 'qwerty') {
+        if (username === 'harshit' && password === 'qw') {
             console.log('Authentication success')
             setAuthenticated(true);
+            setUsername(username)
             return true;
         } else {
             console.log('Authentication failed')
@@ -30,8 +32,10 @@ function AuthProvider({children}){
         setAuthenticated(false)
     }
 
+
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated ,login, logout} }>
+        <AuthContext.Provider value={{ isAuthenticated ,login, logout, username} }>
             {children}
         </AuthContext.Provider>
     )

@@ -1,8 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { retrieveTodoApi, updateTodoAPi } from "./api/TodoApiService";
+import { createTodoApi, retrieveTodoApi, updateTodoAPi } from "./api/TodoApiService";
 import { useAuth } from "./security/AuthContext";
 import { useEffect, useState } from "react";
 import { Field, Formik, Form, ErrorMessage } from "formik";
+import moment from "moment";
 
 function TodoComponent() {
 
@@ -20,30 +21,43 @@ function TodoComponent() {
     )
 
     function retrieveTodo() {
-        retrieveTodoApi(username, id)
-            .then((response) => {
-                console.log(response.data)
-                setDescription(response.data.description)
-                setTargetDate(response.data.targetDate)
-            })
-            .catch()
+        //retrieve todo only if id != -1
+        //if id == -1, its a new todo
+        if (id != -1) {
+            retrieveTodoApi(username, id)
+                .then((response) => {
+                    console.log(response.data)
+                    setDescription(response.data.description)
+                    setTargetDate(response.data.targetDate)
+                })
+                .catch()
+        }
     }
 
     function onSubmit(values) {
-        
-        const todo  = {
-            id : id,
-            username : username,
-            description : values.description,
-            targetDate : values.targetDate,
-            isDone : false
+        console.log(values)
+
+        const todo = {
+            id: id,
+            username: username,
+            description: values.description,
+            targetDate: values.targetDate,
+            isDone: false
         }
-            updateTodoAPi(username,id,todo)
+        if( id == -1 ){
+            createTodoApi(username,todo)
+            .then( response => {
+                navigate("/todos")
+            })
+            .catch( error => console.log(error))
+        }else{
+        updateTodoAPi(username, id, todo)
             .then(response => {
                 // console.log(response)
                 navigate("/todos")
             })
-            .catch( error => console.log(error))
+            .catch(error => console.log(error))
+        }
         console.log(todo)
     }
 
@@ -54,9 +68,10 @@ function TodoComponent() {
             // description: "Enter a valid description",
             // targetDate : "Enter a valid target date"
         }
-
-        if( values.description.length < 5 ) errors.description = "Enter atleast 5 characters"
-        if( values.targetDate == null ) errors.description("Enter a target date")
+        console.log(id)
+        console.log(values)
+        if ( values.description === undefined ||values.description.length < 5) errors.description = "Enter atleast 5 characters"
+        if (values.targetDate == null || values.targetDate == '' || moment(values.targetDate).isValid()) errors.targetDate = "Enter a target date"
         return errors
 
     }
@@ -79,15 +94,14 @@ function TodoComponent() {
                                 <ErrorMessage
 
                                     name="description"
-                                    conponent="div"
+                                    component="div"
                                     className="alert alert-warning"
                                 />
 
 
                                 <ErrorMessage
-
                                     name="targetDate"
-                                    conponent="div"
+                                    component="div"
                                     className="alert alert-warning"
                                 />
 

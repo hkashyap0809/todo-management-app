@@ -10,8 +10,6 @@ function WelcomeComponent() {
 
     const [message, setMessage] =  useState(null);
 
-    console.log(username)
-
     function callHelloWorldRESTAPI(){
     
         retrieveHelloWorldPathVariable(username)
@@ -22,7 +20,7 @@ function WelcomeComponent() {
 
 
     function successResponse(response){
-        console.log(response);
+        // console.log(response);
         setMessage(response.data.message)
     }
 

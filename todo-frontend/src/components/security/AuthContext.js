@@ -17,12 +17,12 @@ function AuthProvider({children}){
 
     function login(username,password){
         if (username === 'harshit' && password === 'qw') {
-            console.log('Authentication success')
+            // console.log('Authentication success')
             setAuthenticated(true);
             setUsername(username)
             return true;
         } else {
-            console.log('Authentication failed')
+            // console.log('Authentication failed')
             setAuthenticated(false);
             return false;
         }

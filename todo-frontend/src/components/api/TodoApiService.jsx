@@ -11,3 +11,5 @@ export const deleteTodoApi = (username,id) => apiClient.delete(`/users/${usernam
 
 export const retrieveTodoApi = (username,id) => apiClient.get(`/users/${username}/todos/${id}`)
 
+export const updateTodoAPi = (username,id,todo) => apiClient.put(`/users/${username}/todos/${id}`, todo)
+

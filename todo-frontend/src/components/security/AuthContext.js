@@ -44,9 +44,9 @@ function AuthProvider({children}){
                 setAuthenticated(true);
                 setUsername(username)
                 setToken(basicAuthToken)
-                //ge the api client and set the token into the header
+                //get the api client and set the token into the header
                  apiClient.interceptors.request.use((config) => {
-                    console.log('adding token')
+                    // console.log('adding token')
                     config.headers.Authorization=basicAuthToken
                     return config
                  })

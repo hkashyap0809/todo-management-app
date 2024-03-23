@@ -15,6 +15,7 @@ function AuthProvider({children}){
     //3. put some values state in the context
     const [ isAuthenticated, setAuthenticated ] = useState(false)
     const [username, setUsername] = useState(null)
+    const [ token, setToken] = useState(null)
 
     //HARD CODED AUTHENTICATION
     // function login(username,password){
@@ -30,35 +31,44 @@ function AuthProvider({children}){
     //     }
     // }
 
-    function login(username,password){
+    async function login(username,password){
         const basicAuthToken = 'Basic ' + window.btoa(username + ":" + password)
-        executeBasicAuthenticationService(basicAuthToken)
-        .then( response => console.log(response))
-        .catch(error => console.log(error))
+        
 
+        const response = await executeBasicAuthenticationService(basicAuthToken)
 
-        setAuthenticated(false)
-
-        // if (username === 'harshit' && password === 'qw') {
-        //     // console.log('Authentication success')
-        //     setAuthenticated(true);
-        //     setUsername(username)
-        //     return true;
-        // } else {
-        //     // console.log('Authentication failed')
-        //     setAuthenticated(false);
-        //     return false;
-        // }
+        try {
+            console.log(response)
+            if( response.status == 200 ){
+                setAuthenticated(true);
+                setUsername(username)
+                setToken(basicAuthToken)
+                return true;
+            }else{
+                setAuthenticated(false);
+                setUsername(null)
+                setToken(null)
+                return false;
+            }
+        }catch( error ){
+            console.error(error)
+            setAuthenticated(false);
+            setUsername(null)
+            setToken(null)
+            return false;
+        }
     }
 
     function logout(){
         setAuthenticated(false)
+        setToken(null)
+        setUsername(null)
     }
 
 
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated ,login, logout, username} }>
+        <AuthContext.Provider value={{ isAuthenticated ,login, logout, username, token} }>
             {children}
         </AuthContext.Provider>
     )

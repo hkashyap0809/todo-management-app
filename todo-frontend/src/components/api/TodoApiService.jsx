@@ -5,7 +5,11 @@ const apiClient = axios.create(
         baseURL:"http://localhost:8080"
     }
 )
-export const retreiveAllTodosForUsernameApi = (username) => apiClient.get(`/users/${username}/todos`)
+export const retreiveAllTodosForUsernameApi = (username) => apiClient.get(`/users/${username}/todos`,{
+    headers:{
+        // Authorization:'Basic YWRtaW46YWRtaW4='
+    }
+})
 
 export const deleteTodoApi = (username,id) => apiClient.delete(`/users/${username}/todos/${id}`)
 

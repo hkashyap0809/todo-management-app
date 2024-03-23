@@ -26,4 +26,11 @@ public class HelloWorldController {
 	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
 		return new HelloWorldBean("Hello World, "+name);
 	}
+	
+	
+	
+	@GetMapping(path="/basicauth")
+	public String basicAuthCheck() {
+		return "Success";
+	}
 }

@@ -46,12 +46,14 @@ public class TodoJpaResource {
 		return todo;
 	}
 	
-//	@PostMapping(path="/users/{username}/todos")
-//	public Todo createTodo(@PathVariable String username, @RequestBody Todo todo){
-//		todoRepository.save(todo);
+	@PostMapping(path="/users/{username}/todos")
+	public Todo createTodo(@PathVariable String username, @RequestBody Todo todo){
+		todo.setUsername(username);
+		todo.setId(null);
+		return todoRepository.save(todo);
 //		Todo createdTodo = todoRepository.addTodo(username, todo.getDescription(), todo.getTargetDate(), todo.isDone());
-//		return createdTodo;
-//	}
+//		return todo;
+	}
 }
 
 

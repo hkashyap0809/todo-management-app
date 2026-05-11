@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShopLens — AX Challenge Demo Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink:    #0b0c10;
+    --paper:  #f4f1eb;
+    --accent: #e84c1e;
+    --teal:   #0d9488;
+    --amber:  #d97706;
+    --purple: #6d28d9;
+    --muted:  #6b6b6b;
+    --border: #d4cfc6;
+  }
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+@page { size: A4 landscape; margin: 0; }
+
+body {
+width: 297mm;
+height: 210mm;
+background: var(–paper);
+font-family: ‘DM Sans’, sans-serif;
+color: var(–ink);
+overflow: hidden;
+position: relative;
+}
+
+/* ── BACKGROUND TEXTURE ── */
+body::before {
+content:’’;
+position:absolute; inset:0;
+background-image:
+repeating-linear-gradient(0deg, transparent, transparent 28px, #d4cfc620 28px, #d4cfc620 29px),
+repeating-linear-gradient(90deg, transparent, transparent 28px, #d4cfc620 28px, #d4cfc620 29px);
+pointer-events:none; z-index:0;
+}
+
+/* ── LAYOUT GRID ── */
+.page {
+position: relative; z-index:1;
+width: 100%; height: 100%;
+display: grid;
+grid-template-columns: 62mm 1fr 1fr;
+grid-template-rows: 100%;
+}
+
+/* ══════════════════════════════════
+LEFT SPINE
+══════════════════════════════════ */
+.spine {
+background: var(–ink);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+padding: 7mm 6mm;
+position: relative;
+overflow: hidden;
+}
+
+.spine::after {
+content:’’;
+position:absolute;
+bottom: -20mm; right: -20mm;
+width: 60mm; height: 60mm;
+border-radius: 50%;
+background: var(–accent);
+opacity: 0.15;
+}
+
+.logo-area {}
+
+.logo-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 7.5pt;
+color: var(–accent);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 3mm;
+}
+
+.logo {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 38pt;
+color: #ffffff;
+line-height: 0.9;
+letter-spacing: 1px;
+}
+
+.logo span { color: var(–accent); }
+
+.tagline {
+font-size: 7.5pt;
+color: #9ca3af;
+margin-top: 3mm;
+line-height: 1.5;
+font-weight: 300;
+}
+
+.spine-divider {
+height: 1px;
+background: #2a2a2a;
+margin: 4mm 0;
+}
+
+.event-info {}
+
+.event-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 6.5pt;
+color: #555;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+margin-bottom: 2mm;
+}
+
+.event-name {
+font-size: 9pt;
+color: #e5e7eb;
+font-weight: 500;
+line-height: 1.4;
+}
+
+.event-date {
+font-family: ‘DM Mono’, monospace;
+font-size: 8pt;
+color: var(–accent);
+margin-top: 1.5mm;
+}
+
+.spine-metrics {
+display: flex;
+flex-direction: column;
+gap: 3.5mm;
+}
+
+.spine-metric {
+border-left: 2px solid var(–accent);
+padding-left: 3mm;
+}
+
+.spine-metric .val {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 18pt;
+color: #fff;
+line-height: 1;
+}
+
+.spine-metric .val.teal { color: var(–teal); }
+.spine-metric .val.amber { color: #fbbf24; }
+
+.spine-metric .lbl {
+font-size: 6.5pt;
+color: #6b7280;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-top: 0.5mm;
+}
+
+.team-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 6pt;
+color: #374151;
+letter-spacing: 1px;
+padding: 2mm 3mm;
+border: 1px solid #2a2a2a;
+border-radius: 3px;
+display: inline-block;
+}
+
+/* ══════════════════════════════════
+MIDDLE COLUMN
+══════════════════════════════════ */
+.mid {
+border-left: 1px solid var(–border);
+border-right: 1px solid var(–border);
+display: flex;
+flex-direction: column;
+padding: 6mm 6mm;
+gap: 0;
+}
+
+/* ── SECTION HEADER ── */
+.s-head {
+display: flex;
+align-items: center;
+gap: 2.5mm;
+margin-bottom: 2.5mm;
+}
+
+.s-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 6.5pt;
+color: var(–accent);
+background: #fde8e0;
+padding: 0.5mm 2mm;
+border-radius: 2px;
+letter-spacing: 1px;
+}
+
+.s-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 12pt;
+letter-spacing: 1px;
+color: var(–ink);
+}
+
+.section { margin-bottom: 4.5mm; }
+
+.section:last-child { margin-bottom: 0; }
+
+.section p, .section li {
+font-size: 7.5pt;
+line-height: 1.55;
+color: #2d2d2d;
+font-weight: 400;
+}
+
+.section ul {
+padding-left: 3.5mm;
+list-style: none;
+}
+
+.section ul li::before {
+content: ‘→’;
+color: var(–accent);
+margin-right: 1.5mm;
+font-size: 7pt;
+}
+
+.hr { height:1px; background: var(–border); margin: 4mm 0; }
+
+/* Problem pills */
+.pill-row {
+display: flex;
+flex-wrap: wrap;
+gap: 2mm;
+margin-top: 2mm;
+}
+
+.pill {
+font-size: 6.5pt;
+padding: 1.5mm 3mm;
+border-radius: 20px;
+font-weight: 500;
+letter-spacing: 0.3px;
+}
+
+.pill.red { background:#fde8e0; color: var(–accent); border:1px solid #f9c4b0; }
+.pill.teal { background:#ccfbf1; color: #0f766e; border:1px solid #99f6e4; }
+.pill.amber { background:#fef3c7; color: #92400e; border:1px solid #fde68a; }
+.pill.purple { background:#ede9fe; color: #5b21b6; border:1px solid #c4b5fd; }
+
+/* Tech stack chips */
+.chip-row {
+display: flex;
+flex-wrap: wrap;
+gap: 1.5mm;
+margin-top: 2mm;
+}
+
+.chip {
+font-family: ‘DM Mono’, monospace;
+font-size: 6pt;
+padding: 1mm 2mm;
+background: var(–ink);
+color: #d1d5db;
+border-radius: 2px;
+letter-spacing: 0.5px;
+}
+
+.chip.hi { background: var(–teal); color:#fff; }
+
+/* Why AI box */
+.why-box {
+background: var(–ink);
+border-radius: 4px;
+padding: 3mm 4mm;
+margin-top: 2mm;
+}
+
+.why-box p {
+color: #d1d5db !important;
+font-size: 7pt !important;
+line-height: 1.55 !important;
+}
+
+.why-box strong { color: #fbbf24; }
+
+/* ══════════════════════════════════
+RIGHT COLUMN
+══════════════════════════════════ */
+.right {
+display: flex;
+flex-direction: column;
+padding: 6mm 6mm;
+gap: 0;
+}
+
+/* Use case cards */
+.uc-card {
+border: 1px solid var(–border);
+border-radius: 5px;
+padding: 4mm;
+margin-bottom: 3.5mm;
+position: relative;
+overflow: hidden;
+}
+
+.uc-card::before {
+content: ‘’;
+position: absolute;
+top:0; left:0;
+width:3px; height:100%;
+}
+
+.uc-card.uc1::before { background: var(–accent); }
+.uc-card.uc2::before { background: var(–teal); }
+
+.uc-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 6pt;
+color: var(–muted);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 1.5mm;
+}
+
+.uc-title {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 11pt;
+letter-spacing: 0.5px;
+margin-bottom: 2mm;
+color: var(–ink);
+}
+
+.uc-card p {
+font-size: 7.5pt;
+line-height: 1.5;
+color: #3d3d3d;
+}
+
+.uc-flow {
+display: flex;
+align-items: center;
+gap: 1.5mm;
+margin-top: 2.5mm;
+flex-wrap: wrap;
+}
+
+.uc-step {
+font-size: 6pt;
+padding: 1mm 2.5mm;
+border-radius: 2px;
+font-weight: 500;
+white-space: nowrap;
+}
+
+.uc1 .uc-step { background:#fde8e0; color: var(–accent); }
+.uc2 .uc-step { background:#ccfbf1; color: #0f766e; }
+
+.uc-arrow {
+font-size: 7pt;
+color: var(–muted);
+}
+
+/* Quant benefits grid */
+.quant-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2.5mm;
+margin-top: 2mm;
+}
+
+.q-cell {
+border: 1px solid var(–border);
+border-radius: 4px;
+padding: 3mm;
+position: relative;
+}
+
+.q-cell::after {
+content: ‘’;
+position: absolute;
+bottom:0; right:0;
+width: 8mm; height: 8mm;
+border-radius: 50% 0 4px 0;
+opacity: 0.08;
+}
+
+.q-cell.c1::after { background: var(–accent); }
+.q-cell.c2::after { background: var(–teal); }
+.q-cell.c3::after { background: var(–amber); }
+.q-cell.c4::after { background: var(–purple); }
+
+.q-icon {
+font-size: 9pt;
+margin-bottom: 1.5mm;
+display: block;
+}
+
+.q-val {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 17pt;
+line-height: 1;
+color: var(–ink);
+}
+
+.q-cell.c1 .q-val { color: var(–accent); }
+.q-cell.c2 .q-val { color: var(–teal); }
+.q-cell.c3 .q-val { color: var(–amber); }
+.q-cell.c4 .q-val { color: var(–purple); }
+
+.q-sub {
+font-size: 6.5pt;
+color: var(–muted);
+margin-top: 1mm;
+line-height: 1.4;
+}
+
+.q-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 6pt;
+color: var(–muted);
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-top: 1.5mm;
+}
+
+/* bottom strip */
+.bottom-strip {
+margin-top: auto;
+padding-top: 3mm;
+border-top: 1px solid var(–border);
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+}
+
+.commercialize {
+font-size: 7pt;
+color: var(–muted);
+}
+
+.commercialize strong {
+font-family: ‘Bebas Neue’, sans-serif;
+font-size: 13pt;
+color: var(–ink);
+display: block;
+line-height: 1;
+}
+
+.commercialize em {
+font-style: normal;
+color: var(–teal);
+font-weight: 600;
+}
+
+.watermark {
+font-family: ‘DM Mono’, monospace;
+font-size: 5.5pt;
+color: #c0bbb0;
+letter-spacing: 1px;
+text-align: right;
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ LEFT SPINE ══ -->
+
+  <div class="spine">
+    <div class="logo-area">
+      <div class="logo-tag">AX Challenge 2026</div>
+      <div class="logo">Shop<span>Lens</span></div>
+      <div class="tagline">See It · Buy It · Own It<br>Agentic Commerce via UCP</div>
+    </div>
+
+```
+<div class="spine-divider"></div>
+
+<div class="event-info">
+  <div class="event-label">Presenting at</div>
+  <div class="event-name">AX Challenge<br>Demo Day</div>
+  <div class="event-date">May 12, 2026</div>
+</div>
+
+<div class="spine-divider"></div>
+
+<div class="spine-metrics">
+  <div class="spine-metric">
+    <div class="val">95%</div>
+    <div class="lbl">Integration cost reduction</div>
+  </div>
+  <div class="spine-metric">
+    <div class="val teal">60s</div>
+    <div class="lbl">Discovery → purchase</div>
+  </div>
+  <div class="spine-metric">
+    <div class="val amber">∞</div>
+    <div class="lbl">Merchants via one protocol</div>
+  </div>
+</div>
+
+<div class="spine-divider"></div>
+
+<div class="team-tag">TEAM CART CARTEL</div>
+```
+
+  </div>
+
+  <!-- ══ MIDDLE COLUMN ══ -->
+
+  <div class="mid">
+
+```
+<div class="section">
+  <div class="s-head">
+    <span class="s-num">01</span>
+    <span class="s-title">Background — The Need</span>
+  </div>
+  <p>Online commerce is broken for the AI era. Products are discovered in videos, AI chats, and voice assistants — but buying requires leaving that surface entirely. Merchants need custom integrations for every new AI touchpoint, costing weeks and thousands of dollars per surface.</p>
+  <div class="pill-row">
+    <span class="pill red">No in-context buying</span>
+    <span class="pill red">Fragmented checkout</span>
+    <span class="pill red">Custom integrations per surface</span>
+  </div>
+</div>
+
+<div class="hr"></div>
+
+<div class="section">
+  <div class="s-head">
+    <span class="s-num">02</span>
+    <span class="s-title">Problem Statement</span>
+  </div>
+  <ul>
+    <li>AI agents cannot transact directly with existing stores — every surface needs a new custom build</li>
+    <li>Products seen in videos cannot be purchased in context — buyers drop off navigating away</li>
+    <li>Price-sensitive buyers have no autonomous, hands-free way to act on price drops</li>
+    <li>Merchant onboarding to new AI surfaces takes 2–4 weeks and costs $10K–$50K per integration</li>
+  </ul>
+</div>
+
+<div class="hr"></div>
+
+<div class="section">
+  <div class="s-head">
+    <span class="s-num">03</span>
+    <span class="s-title">Solution &amp; AI Stack</span>
+  </div>
+  <p>ShopLens is a multi-merchant agentic commerce platform built on Google's <strong>Universal Commerce Protocol (UCP)</strong>. Any merchant registers once — their products become instantly purchasable through AI agents, shoppable video, and autonomous price-triggered buying.</p>
+  <div class="chip-row">
+    <span class="chip hi">UCP Protocol</span>
+    <span class="chip">YOLOv8</span>
+    <span class="chip">CLIP + ChromaDB</span>
+    <span class="chip">LangChain + Ollama</span>
+    <span class="chip">FastAPI</span>
+    <span class="chip">Celery + Redis</span>
+    <span class="chip">Next.js</span>
+    <span class="chip hi">SingleStore</span>
+  </div>
+</div>
+
+<div class="hr"></div>
+
+<div class="section">
+  <div class="s-head">
+    <span class="s-num">05</span>
+    <span class="s-title">Why AI Only</span>
+  </div>
+  <div class="why-box">
+    <p><strong>Object detection</strong> — YOLOv8 identifies shoppable products in real-time video frames. No human can review every frame at scale.<br/><br/>
+    <strong>Semantic matching</strong> — CLIP bridges the gap between "what the camera sees" and "what the merchant sells" using embeddings, not keyword lookup.<br/><br/>
+    <strong>Conversational intent</strong> — LLM understands multi-turn shopping dialogue, extracts price thresholds, and resolves ambiguous references like "buy this one".<br/><br/>
+    <strong>Autonomous purchasing</strong> — Celery agent monitors prices 24/7 and executes checkout without human intervention when conditions are met.</p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ══ RIGHT COLUMN ══ -->
+
+  <div class="right">
+
+```
+<div class="s-head" style="margin-bottom:3mm;">
+  <span class="s-num">04</span>
+  <span class="s-title">Two Impactful Use Cases</span>
+</div>
+
+<div class="uc-card uc1">
+  <div class="uc-num">USE CASE 01</div>
+  <div class="uc-title">In-Video Commerce — See It, Buy It</div>
+  <p>User watches a product video. AI scans frames via YOLOv8, matches detected objects to merchant catalog using CLIP embeddings, and surfaces a shoppable overlay. One tap fires a UCP checkout via SingleStore's Single Checkout — order placed without leaving the video.</p>
+  <div class="uc-flow">
+    <span class="uc-step">Watch video</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Scan frame</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">AI detects product</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Overlay appears</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Buy Now → Order placed</span>
+  </div>
+</div>
+
+<div class="uc-card uc2">
+  <div class="uc-num">USE CASE 02</div>
+  <div class="uc-title">Autonomous Price-Drop Buying</div>
+  <p>User tells the AI agent via chat or voice: <em>"Reserve this headphone — buy it when it drops below $150."</em> LLM extracts intent and threshold. Celery worker polls UCP catalog every minute across all merchants. When price drops, checkout fires automatically — buyer just gets notified.</p>
+  <div class="uc-flow">
+    <span class="uc-step">Chat: "Buy below $150"</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">LLM extracts threshold</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Agent watches price</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Price drops</span>
+    <span class="uc-arrow">→</span>
+    <span class="uc-step">Auto-purchased ✓</span>
+  </div>
+</div>
+
+<div class="s-head" style="margin-bottom:0;">
+  <span class="s-num">06</span>
+  <span class="s-title">Quantitative Benefits</span>
+</div>
+
+<div class="quant-grid">
+  <div class="q-cell c1">
+    <span class="q-icon">⚡</span>
+    <div class="q-val">95%</div>
+    <div class="q-sub">Cost reduction per merchant integration<br>$50K → ~$500</div>
+    <div class="q-label">Cost Benefit</div>
+  </div>
+  <div class="q-cell c2">
+    <span class="q-icon">🕐</span>
+    <div class="q-val">&lt;1 Day</div>
+    <div class="q-sub">Merchant onboarding time<br>was 2–4 weeks</div>
+    <div class="q-label">Productivity</div>
+  </div>
+  <div class="q-cell c3">
+    <span class="q-icon">📈</span>
+    <div class="q-val">30%</div>
+    <div class="q-sub">Checkout abandonment reduction<br>70% → &lt;40%</div>
+    <div class="q-label">New Revenue Driver</div>
+  </div>
+  <div class="q-cell c4">
+    <span class="q-icon">🚀</span>
+    <div class="q-val">4 Days</div>
+    <div class="q-sub">MVP built &amp; demo-ready<br>via Claude Code + UCP SDK</div>
+    <div class="q-label">Time to Commercialize</div>
+  </div>
+</div>
+
+<div class="bottom-strip">
+  <div class="commercialize">
+    <strong>Commercialize in <em>weeks</em></strong>
+    Open UCP standard · Any merchant · Any AI surface
+  </div>
+  <div class="watermark">
+    SHOPLENS · AX CHALLENGE 2026<br>
+    TEAM CART CARTEL
+  </div>
+</div>
+```
+
+  </div>
+
+</div>
+</body>
+</html>

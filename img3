@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShopLens — AX Challenge Demo Day</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:wght@300;400;500;600&family=Instrument+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --black:   #0a0a0a;
+    --white:   #ffffff;
+    --paper:   #f7f5f0;
+    --red:     #d63c1f;
+    --teal:    #0a7c6e;
+    --gold:    #b8860b;
+    --smoke:   #e8e4dc;
+    --muted:   #7a7670;
+    --ink:     #1a1a1a;
+  }
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+@page { size: A4 landscape; margin: 0; }
+
+body {
+width: 297mm;
+height: 210mm;
+background: var(–paper);
+font-family: ‘Instrument Sans’, sans-serif;
+color: var(–ink);
+overflow: hidden;
+position: relative;
+}
+
+/* noise texture overlay */
+body::after {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 256 256’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘noise’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.9’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23noise)’ opacity=‘0.04’/%3E%3C/svg%3E”);
+pointer-events: none;
+z-index: 100;
+opacity: 0.5;
+}
+
+.page {
+width: 100%;
+height: 100%;
+display: grid;
+grid-template-columns: 56mm 1fr 1fr;
+grid-template-rows: 100%;
+position: relative;
+z-index: 1;
+}
+
+/* ══════════════════════════════
+LEFT PANEL
+══════════════════════════════ */
+.left {
+background: var(–black);
+display: flex;
+flex-direction: column;
+padding: 8mm 7mm;
+position: relative;
+overflow: hidden;
+}
+
+/* decorative circle */
+.left::before {
+content: ‘’;
+position: absolute;
+bottom: -18mm;
+right: -18mm;
+width: 52mm;
+height: 52mm;
+border-radius: 50%;
+border: 1px solid #ffffff10;
+}
+
+.left::after {
+content: ‘’;
+position: absolute;
+bottom: -10mm;
+right: -10mm;
+width: 36mm;
+height: 36mm;
+border-radius: 50%;
+border: 1px solid #ffffff08;
+}
+
+.event-chip {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: var(–red);
+letter-spacing: 2px;
+text-transform: uppercase;
+border: 1px solid #d63c1f40;
+display: inline-block;
+padding: 1.5mm 3mm;
+border-radius: 2px;
+margin-bottom: 5mm;
+width: fit-content;
+}
+
+.logo {
+font-family: ‘Syne’, sans-serif;
+font-size: 42pt;
+font-weight: 800;
+color: var(–white);
+line-height: 0.88;
+letter-spacing: -1px;
+margin-bottom: 3mm;
+}
+
+.logo span { color: var(–red); }
+
+.tagline {
+font-size: 7.5pt;
+color: #888;
+font-weight: 300;
+line-height: 1.5;
+margin-bottom: 6mm;
+}
+
+.divider {
+height: 1px;
+background: #222;
+margin-bottom: 6mm;
+}
+
+.pitch-label {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: #444;
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 3mm;
+}
+
+.pitch-text {
+font-size: 7pt;
+color: #aaa;
+line-height: 1.65;
+font-weight: 300;
+flex: 1;
+}
+
+.pitch-text em {
+color: var(–white);
+font-style: normal;
+font-weight: 500;
+}
+
+.left-bottom {
+margin-top: auto;
+padding-top: 5mm;
+border-top: 1px solid #1e1e1e;
+display: flex;
+flex-direction: column;
+gap: 2mm;
+}
+
+.date-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.date-val {
+font-family: ‘Syne’, sans-serif;
+font-size: 8pt;
+color: var(–white);
+font-weight: 600;
+}
+
+.date-lbl {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 5.5pt;
+color: #444;
+letter-spacing: 1px;
+}
+
+.team-badge {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: #333;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+}
+
+/* ══════════════════════════════
+MIDDLE PANEL
+══════════════════════════════ */
+.mid {
+border-left: 1px solid var(–smoke);
+border-right: 1px solid var(–smoke);
+padding: 7mm 6mm;
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+
+.s-label {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: var(–red);
+letter-spacing: 2px;
+text-transform: uppercase;
+display: flex;
+align-items: center;
+gap: 2mm;
+margin-bottom: 2mm;
+}
+
+.s-label::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–smoke);
+}
+
+.s-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 13pt;
+font-weight: 700;
+color: var(–ink);
+margin-bottom: 2mm;
+line-height: 1.1;
+}
+
+.s-body {
+font-size: 7.5pt;
+line-height: 1.6;
+color: #3a3a3a;
+font-weight: 400;
+}
+
+.s-body strong { color: var(–ink); font-weight: 600; }
+
+.block { margin-bottom: 5mm; }
+.block:last-child { margin-bottom: 0; }
+
+.sep { height: 1px; background: var(–smoke); margin: 4.5mm 0; }
+
+/* pill tags */
+.tags {
+display: flex;
+flex-wrap: wrap;
+gap: 2mm;
+margin-top: 2.5mm;
+}
+
+.tag {
+font-size: 6.5pt;
+padding: 1.5mm 3mm;
+border-radius: 20px;
+font-weight: 500;
+border: 1px solid transparent;
+}
+
+.tag.dark { background: var(–ink); color: #d4d0c8; border-color: var(–ink); }
+.tag.red  { background: #fde8e0; color: var(–red); border-color: #f5c4b0; }
+.tag.teal { background: #d0f0ea; color: var(–teal); border-color: #a0ddd4; }
+
+/* why ai box */
+.ai-box {
+background: var(–ink);
+border-radius: 5px;
+padding: 4mm;
+margin-top: 2mm;
+}
+
+.ai-box p {
+font-size: 7pt;
+color: #bbb;
+line-height: 1.6;
+}
+
+.ai-box p strong { color: var(–white); }
+
+/* ══════════════════════════════
+RIGHT PANEL
+══════════════════════════════ */
+.right {
+padding: 7mm 6mm;
+display: flex;
+flex-direction: column;
+}
+
+/* use case cards */
+.uc {
+border: 1px solid var(–smoke);
+border-radius: 5px;
+padding: 4mm 4.5mm;
+margin-bottom: 3.5mm;
+position: relative;
+overflow: hidden;
+}
+
+.uc::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0;
+width: 3px;
+height: 100%;
+}
+
+.uc.u1::before { background: var(–red); }
+.uc.u2::before { background: var(–teal); }
+
+.uc-tag {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: var(–muted);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 1.5mm;
+}
+
+.uc-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 10.5pt;
+font-weight: 700;
+margin-bottom: 2mm;
+line-height: 1.1;
+}
+
+.u1 .uc-title { color: var(–ink); }
+.u2 .uc-title { color: var(–ink); }
+
+.uc p {
+font-size: 7.5pt;
+line-height: 1.55;
+color: #3a3a3a;
+}
+
+/* quant grid */
+.quant-label {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 6pt;
+color: var(–red);
+letter-spacing: 2px;
+text-transform: uppercase;
+display: flex;
+align-items: center;
+gap: 2mm;
+margin-bottom: 3mm;
+}
+
+.quant-label::after {
+content: ‘’;
+flex: 1;
+height: 1px;
+background: var(–smoke);
+}
+
+.qgrid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2.5mm;
+margin-bottom: 4mm;
+}
+
+.qcell {
+border: 1px solid var(–smoke);
+border-radius: 4px;
+padding: 3mm 3.5mm;
+background: var(–white);
+}
+
+.qcell .icon {
+font-size: 9pt;
+margin-bottom: 1.5mm;
+display: block;
+}
+
+.qcell .val {
+font-family: ‘Syne’, sans-serif;
+font-weight: 800;
+font-size: 16pt;
+line-height: 1;
+margin-bottom: 1mm;
+}
+
+.qcell.c1 .val { color: var(–red); }
+.qcell.c2 .val { color: var(–teal); }
+.qcell.c3 .val { color: var(–gold); }
+.qcell.c4 .val { color: #5b3dc8; }
+
+.qcell .sub {
+font-size: 6.5pt;
+color: var(–muted);
+line-height: 1.4;
+}
+
+.qcell .qlabel {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 5.5pt;
+color: #bbb;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-top: 1.5mm;
+}
+
+/* footer strip */
+.footer {
+margin-top: auto;
+padding-top: 3mm;
+border-top: 1px solid var(–smoke);
+display: flex;
+justify-content: space-between;
+align-items: flex-end;
+}
+
+.footer-left strong {
+font-family: ‘Syne’, sans-serif;
+font-size: 11pt;
+font-weight: 700;
+color: var(–ink);
+display: block;
+line-height: 1;
+}
+
+.footer-left span {
+font-size: 6.5pt;
+color: var(–muted);
+margin-top: 1mm;
+display: block;
+}
+
+.footer-right {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 5.5pt;
+color: #ccc;
+text-align: right;
+letter-spacing: 1px;
+line-height: 1.8;
+}
+</style>
+
+</head>
+<body>
+<div class="page">
+
+  <!-- ══ LEFT ══ -->
+
+  <div class="left">
+    <div class="event-chip">AX Challenge 2026</div>
+
+```
+<div class="logo">Shop<span>Lens</span></div>
+<div class="tagline">Fully Conversational<br>Agentic Commerce</div>
+
+<div class="divider"></div>
+
+<div class="pitch-label">One-line pitch</div>
+<div class="pitch-text">
+  <em>Agentic payments is the next frontier.</em> Razorpay, UPI, Zomato are racing toward it — but every implementation is siloed, every pilot is closed, and no agent can complete a payment safely across any merchant. <em>We built ShopLens on Google's UCP standard, powered by Samsung's own payment APIs</em> — where the AI detects products, holds a full conversation, and completes the payment autonomously. <em>Not a pilot. A working product.</em>
+</div>
+
+<div class="left-bottom">
+  <div class="date-row">
+    <div>
+      <div class="date-lbl">Demo Day</div>
+      <div class="date-val">May 12, 2026</div>
+    </div>
+    <div style="text-align:right">
+      <div class="date-lbl">Format</div>
+      <div class="date-val">4 Min</div>
+    </div>
+  </div>
+  <div class="team-badge">Team · Cart Cartel</div>
+</div>
+```
+
+  </div>
+
+  <!-- ══ MIDDLE ══ -->
+
+  <div class="mid">
+
+```
+<div class="block">
+  <div class="s-label">01 · Background</div>
+  <div class="s-title">The need</div>
+  <div class="s-body">
+    Every time a buyer discovers a product in a conversation, a video, or an AI chat — the moment they want to buy, the experience breaks. They are thrown into a checkout page, a UPI app, another screen. The conversation ends. The friction begins.
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="block">
+  <div class="s-label">02 · Problem Statement</div>
+  <div class="s-title">What's broken</div>
+  <div class="s-body">
+    Razorpay, UPI, Zomato all pivoted to agentic payments — <strong>right direction, same flaw.</strong> Every merchant needs a custom integration. Every pilot is siloed. No agent can complete a payment safely and autonomously across merchants at scale. There is no standard.
+  </div>
+  <div class="tags">
+    <span class="tag red">Siloed per merchant</span>
+    <span class="tag red">Closed pilots</span>
+    <span class="tag red">Conversation breaks at checkout</span>
+    <span class="tag red">No open standard</span>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="block">
+  <div class="s-label">03 · Solution</div>
+  <div class="s-title">ShopLens on UCP + Samsung APIs</div>
+  <div class="s-body">
+    Google launched <strong>UCP in January 2026</strong> — an open protocol for AI agents to transact with any merchant. ShopLens is built on it. The AI detects products, holds a full multi-turn conversation, and the agent completes the payment securely using <strong>Samsung's SingleStore and Single Checkout APIs</strong> — entirely within the chat. No redirects. No forms. No UPI switch.
+  </div>
+  <div class="tags">
+    <span class="tag dark">Google UCP</span>
+    <span class="tag dark">SingleStore</span>
+    <span class="tag dark">Single Checkout</span>
+    <span class="tag teal">YOLOv8 · CLIP</span>
+    <span class="tag teal">LangChain · Ollama</span>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<div class="block">
+  <div class="s-label">05 · Why AI Only</div>
+  <div class="ai-box">
+    <p>
+      <strong>Intent understanding</strong> — LLM interprets multi-turn shopping dialogue, resolves ambiguity, extracts preference across a full conversation. No rule engine can do this.<br/><br/>
+      <strong>Autonomous payment execution</strong> — agent handles authentication, order creation, and payment via Samsung APIs without human intervention. Requires reasoning, not scripting.<br/><br/>
+      <strong>Visual product detection</strong> — CLIP + YOLOv8 bridge the gap between what a camera sees and what a merchant sells — impossible without AI.
+    </p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ══ RIGHT ══ -->
+
+  <div class="right">
+
+```
+<div class="s-label" style="margin-bottom:3.5mm;">04 · Use Cases</div>
+
+<div class="uc u1">
+  <div class="uc-tag">Use Case 01</div>
+  <div class="uc-title">Fully Conversational Checkout</div>
+  <p>User opens ShopLens like any chat app. Describes what they want. The AI asks questions, narrows options, and — when ready — the agent completes the payment autonomously using Samsung's Single Checkout. No form. No redirect. Order confirmed inside the same conversation thread.</p>
+</div>
+
+<div class="uc u2">
+  <div class="uc-tag">Use Case 02</div>
+  <div class="uc-title">Video Commerce via Agentic Payment</div>
+  <p>While a video plays, the AI automatically detects products on screen and surfaces them in the conversation. User engages naturally — "tell me more about that" — and when they decide, the agent executes the full payment via Samsung's APIs without leaving the chat.</p>
+</div>
+
+<div class="quant-label">06 · Quantitative Benefits</div>
+
+<div class="qgrid">
+  <div class="qcell c1">
+    <span class="icon">⚡</span>
+    <div class="val">95%</div>
+    <div class="sub">Integration cost reduction<br>$50K → ~$500 per merchant</div>
+    <div class="qlabel">Cost Benefit</div>
+  </div>
+  <div class="qcell c2">
+    <span class="icon">🕐</span>
+    <div class="val">&lt;1 Day</div>
+    <div class="sub">Merchant onboarding<br>was 2–4 weeks</div>
+    <div class="qlabel">Productivity</div>
+  </div>
+  <div class="qcell c3">
+    <span class="icon">📈</span>
+    <div class="val">30%</div>
+    <div class="sub">Checkout abandonment drop<br>70% → &lt;40%</div>
+    <div class="qlabel">New Revenue Driver</div>
+  </div>
+  <div class="qcell c4">
+    <span class="icon">🚀</span>
+    <div class="val">4 Days</div>
+    <div class="sub">MVP built and demo-ready<br>via UCP + Samsung APIs</div>
+    <div class="qlabel">Time to Commercialize</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">
+    <strong>Built on Google UCP · Powered by Samsung</strong>
+    <span>One conversation · Any merchant · Payment included</span>
+  </div>
+  <div class="footer-right">
+    SHOPLENS · AX CHALLENGE 2026<br>
+    TEAM CART CARTEL
+  </div>
+</div>
+```
+
+  </div>
+
+</div>
+</body>
+</html>

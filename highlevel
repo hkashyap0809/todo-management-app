@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShopLens — Workflow</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@300;400;500&family=Instrument+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:     #0c0c0f;
+    --panel:  #131318;
+    --border: #1e1e26;
+    --red:    #d63c1f;
+    --teal:   #0a9e8a;
+    --gold:   #c9962a;
+    --purple: #7c5cbf;
+    --white:  #f0eee8;
+    --muted:  #666672;
+    --dim:    #2a2a35;
+  }
+
+- { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+background: var(–bg);
+font-family: ‘Instrument Sans’, sans-serif;
+color: var(–white);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 32px 20px;
+}
+
+/* ── HEADER ── */
+.header {
+text-align: center;
+margin-bottom: 36px;
+}
+
+.header-chip {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 10px;
+color: var(–red);
+letter-spacing: 3px;
+text-transform: uppercase;
+border: 1px solid #d63c1f30;
+padding: 4px 12px;
+border-radius: 20px;
+display: inline-block;
+margin-bottom: 12px;
+}
+
+.header h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: 36px;
+font-weight: 800;
+letter-spacing: -1px;
+margin-bottom: 6px;
+}
+
+.header h1 span { color: var(–red); }
+
+.header p {
+font-size: 13px;
+color: var(–muted);
+font-weight: 300;
+}
+
+/* ── MAIN CANVAS ── */
+.canvas {
+width: 100%;
+max-width: 1100px;
+display: flex;
+flex-direction: column;
+gap: 0;
+}
+
+/* ── ROW 1: ENTRY POINTS ── */
+.row-label {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 9px;
+color: var(–muted);
+letter-spacing: 3px;
+text-transform: uppercase;
+text-align: center;
+margin-bottom: 12px;
+}
+
+.entry-row {
+display: flex;
+gap: 16px;
+justify-content: center;
+margin-bottom: 0;
+}
+
+.entry-card {
+background: var(–panel);
+border: 1px solid var(–border);
+border-radius: 12px;
+padding: 16px 20px;
+width: 260px;
+position: relative;
+overflow: hidden;
+}
+
+.entry-card::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0;
+right: 0;
+height: 2px;
+}
+
+.entry-card.ec1::before { background: var(–red); }
+.entry-card.ec2::before { background: var(–teal); }
+
+.entry-icon {
+font-size: 18px;
+margin-bottom: 8px;
+display: block;
+}
+
+.entry-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 13px;
+font-weight: 700;
+margin-bottom: 4px;
+}
+
+.entry-desc {
+font-size: 10.5px;
+color: var(–muted);
+line-height: 1.5;
+}
+
+/* ── ARROWS DOWN ── */
+.arrows-down {
+display: flex;
+justify-content: center;
+gap: 16px;
+padding: 8px 0;
+position: relative;
+}
+
+.arrow-down-line {
+width: 260px;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 0;
+}
+
+.arrow-shaft {
+width: 1px;
+height: 24px;
+background: linear-gradient(to bottom, var(–border), var(–dim));
+}
+
+.arrow-head {
+width: 0;
+height: 0;
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 6px solid var(–dim);
+}
+
+/* ── AGENT BRAIN ── */
+.agent-wrap {
+display: flex;
+justify-content: center;
+margin-bottom: 0;
+}
+
+.agent-box {
+background: #0f0f1a;
+border: 1px solid var(–purple);
+border-radius: 14px;
+padding: 20px 28px;
+width: 580px;
+position: relative;
+text-align: center;
+box-shadow: 0 0 40px #7c5cbf15;
+}
+
+.agent-box::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(–purple), transparent);
+border-radius: 14px 14px 0 0;
+}
+
+.agent-chip {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 8px;
+color: var(–purple);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 6px;
+}
+
+.agent-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 16px;
+font-weight: 800;
+color: var(–white);
+margin-bottom: 14px;
+}
+
+.agent-steps {
+display: flex;
+gap: 0;
+justify-content: center;
+align-items: center;
+}
+
+.agent-step {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 6px;
+}
+
+.step-dot {
+width: 32px;
+height: 32px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 13px;
+border: 1px solid var(–dim);
+background: var(–panel);
+}
+
+.step-text {
+font-size: 9px;
+color: var(–muted);
+text-align: center;
+line-height: 1.4;
+font-family: ‘Instrument Mono’, monospace;
+letter-spacing: 0.5px;
+}
+
+.step-connector {
+width: 28px;
+height: 1px;
+background: var(–dim);
+margin: 0 4px;
+margin-bottom: 22px;
+position: relative;
+}
+
+.step-connector::after {
+content: ‘’;
+position: absolute;
+right: -4px;
+top: -3px;
+width: 0;
+height: 0;
+border-left: 5px solid var(–dim);
+border-top: 3px solid transparent;
+border-bottom: 3px solid transparent;
+}
+
+/* ── ARROW DOWN CENTER ── */
+.center-arrow {
+display: flex;
+justify-content: center;
+padding: 8px 0;
+flex-direction: column;
+align-items: center;
+gap: 0;
+}
+
+.center-arrow .shaft {
+width: 1px;
+height: 24px;
+background: linear-gradient(to bottom, var(–purple), var(–teal));
+}
+
+.center-arrow .head {
+width: 0;
+height: 0;
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 6px solid var(–teal);
+}
+
+/* ── UCP GATEWAY ── */
+.gateway-wrap {
+display: flex;
+justify-content: center;
+margin-bottom: 0;
+}
+
+.gateway-box {
+background: #080f0e;
+border: 1px solid var(–teal);
+border-radius: 12px;
+padding: 16px 24px;
+width: 680px;
+text-align: center;
+position: relative;
+box-shadow: 0 0 30px #0a9e8a10;
+}
+
+.gateway-box::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(–teal), transparent);
+border-radius: 12px 12px 0 0;
+}
+
+.gateway-chip {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 8px;
+color: var(–teal);
+letter-spacing: 2px;
+text-transform: uppercase;
+margin-bottom: 4px;
+}
+
+.gateway-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 14px;
+font-weight: 700;
+color: var(–white);
+margin-bottom: 10px;
+}
+
+.gateway-pills {
+display: flex;
+gap: 8px;
+justify-content: center;
+flex-wrap: wrap;
+}
+
+.gpill {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 8.5px;
+padding: 3px 10px;
+border-radius: 20px;
+border: 1px solid var(–teal);
+color: var(–teal);
+background: #0a9e8a10;
+letter-spacing: 0.5px;
+}
+
+/* ── ARROW DOWN TO PAYMENT ── */
+.pay-arrow {
+display: flex;
+justify-content: center;
+padding: 8px 0;
+flex-direction: column;
+align-items: center;
+}
+
+.pay-arrow .shaft {
+width: 1px;
+height: 24px;
+background: linear-gradient(to bottom, var(–teal), var(–gold));
+}
+
+.pay-arrow .head {
+width: 0;
+height: 0;
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 6px solid var(–gold);
+}
+
+/* ── PAYMENT ROW ── */
+.payment-row {
+display: flex;
+gap: 16px;
+justify-content: center;
+margin-bottom: 0;
+}
+
+.pay-card {
+background: var(–panel);
+border: 1px solid var(–gold);
+border-radius: 12px;
+padding: 16px 20px;
+width: 320px;
+position: relative;
+overflow: hidden;
+box-shadow: 0 0 20px #c9962a0a;
+}
+
+.pay-card::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: var(–gold);
+}
+
+.pay-icon { font-size: 16px; margin-bottom: 6px; display: block; }
+
+.pay-title {
+font-family: ‘Syne’, sans-serif;
+font-size: 12px;
+font-weight: 700;
+color: var(–gold);
+margin-bottom: 4px;
+}
+
+.pay-desc {
+font-size: 10px;
+color: var(–muted);
+line-height: 1.5;
+}
+
+.pay-desc strong { color: #e0c060; }
+
+/* ── RESULT ROW ── */
+.result-arrows {
+display: flex;
+justify-content: center;
+gap: 16px;
+padding: 8px 0;
+}
+
+.result-arrow-line {
+width: 320px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.result-row {
+display: flex;
+gap: 16px;
+justify-content: center;
+}
+
+.result-card {
+background: #071209;
+border: 1px solid #1e3d28;
+border-radius: 12px;
+padding: 14px 20px;
+width: 320px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.result-icon {
+font-size: 22px;
+flex-shrink: 0;
+}
+
+.result-text .rtitle {
+font-family: ‘Syne’, sans-serif;
+font-size: 12px;
+font-weight: 700;
+color: #4ade80;
+margin-bottom: 2px;
+}
+
+.result-text .rdesc {
+font-size: 10px;
+color: var(–muted);
+line-height: 1.4;
+}
+
+/* ── BOTTOM LEGEND ── */
+.legend {
+display: flex;
+gap: 24px;
+justify-content: center;
+margin-top: 32px;
+flex-wrap: wrap;
+}
+
+.legend-item {
+display: flex;
+align-items: center;
+gap: 7px;
+font-size: 10px;
+color: var(–muted);
+}
+
+.legend-dot {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+flex-shrink: 0;
+}
+
+/* ── PROBLEM BANNER ── */
+.problem-banner {
+background: #1a0a07;
+border: 1px solid #d63c1f25;
+border-radius: 10px;
+padding: 14px 24px;
+width: 100%;
+max-width: 1100px;
+margin-bottom: 32px;
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.pb-label {
+font-family: ‘Instrument Mono’, monospace;
+font-size: 8px;
+color: var(–red);
+letter-spacing: 2px;
+text-transform: uppercase;
+white-space: nowrap;
+flex-shrink: 0;
+}
+
+.pb-divider {
+width: 1px;
+height: 28px;
+background: #d63c1f20;
+flex-shrink: 0;
+}
+
+.pb-items {
+display: flex;
+gap: 10px;
+flex-wrap: wrap;
+}
+
+.pb-item {
+font-size: 10px;
+color: #c4614a;
+background: #d63c1f10;
+border: 1px solid #d63c1f20;
+border-radius: 20px;
+padding: 3px 10px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.pb-item::before {
+content: ‘✕’;
+font-size: 8px;
+color: var(–red);
+}
+</style>
+
+</head>
+<body>
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <div class="header-chip">AX Challenge 2026 · Cart Cartel</div>
+    <h1>Shop<span>Lens</span></h1>
+    <p>High-level workflow — Fully Conversational Agentic Commerce</p>
+  </div>
+
+  <div class="canvas">
+
+```
+<!-- PROBLEM BANNER -->
+<div class="problem-banner">
+  <div class="pb-label">Industry gap</div>
+  <div class="pb-divider"></div>
+  <div class="pb-items">
+    <span class="pb-item">Razorpay, UPI, Zomato pilots are siloed per merchant</span>
+    <span class="pb-item">Conversation always breaks at checkout</span>
+    <span class="pb-item">No open standard for cross-merchant agentic payment</span>
+    <span class="pb-item">No agent completes payment safely across merchants</span>
+  </div>
+</div>
+
+<!-- ENTRY POINTS -->
+<div class="row-label">How a user enters</div>
+<div class="entry-row">
+  <div class="entry-card ec1">
+    <span class="entry-icon">🎙</span>
+    <div class="entry-title">Chat / Voice</div>
+    <div class="entry-desc">User describes what they want in natural language — "find me noise cancelling headphones under $200"</div>
+  </div>
+  <div class="entry-card ec2">
+    <span class="entry-icon">📺</span>
+    <div class="entry-title">Video Commerce</div>
+    <div class="entry-desc">AI watches the video automatically, detects products on screen, surfaces them in the conversation</div>
+  </div>
+</div>
+
+<!-- ARROWS DOWN -->
+<div class="arrows-down">
+  <div class="arrow-down-line">
+    <div class="arrow-shaft"></div>
+    <div class="arrow-head"></div>
+  </div>
+  <div class="arrow-down-line">
+    <div class="arrow-shaft"></div>
+    <div class="arrow-head"></div>
+  </div>
+</div>
+
+<!-- AI AGENT -->
+<div class="agent-wrap">
+  <div class="agent-box">
+    <div class="agent-chip">⚡ Conversational AI Agent · LangChain + Ollama</div>
+    <div class="agent-title">Multi-turn Shopping Conversation</div>
+    <div class="agent-steps">
+      <div class="agent-step">
+        <div class="step-dot">🔍</div>
+        <div class="step-text">Understand<br/>intent</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="agent-step">
+        <div class="step-dot">💬</div>
+        <div class="step-text">Ask & refine<br/>preferences</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="agent-step">
+        <div class="step-dot">🛍</div>
+        <div class="step-text">Surface<br/>products</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="agent-step">
+        <div class="step-dot">✅</div>
+        <div class="step-text">User<br/>confirms</div>
+      </div>
+      <div class="step-connector"></div>
+      <div class="agent-step">
+        <div class="step-dot">⚡</div>
+        <div class="step-text">Trigger<br/>payment</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CENTER ARROW -->
+<div class="center-arrow">
+  <div class="shaft"></div>
+  <div class="head"></div>
+</div>
+
+<!-- UCP GATEWAY -->
+<div class="gateway-wrap">
+  <div class="gateway-box">
+    <div class="gateway-chip">Google Universal Commerce Protocol · Jan 2026</div>
+    <div class="gateway-title">UCP Gateway — One Standard, Any Merchant</div>
+    <div class="gateway-pills">
+      <span class="gpill">/.well-known/ucp</span>
+      <span class="gpill">Product discovery</span>
+      <span class="gpill">Session management</span>
+      <span class="gpill">Offer evaluation</span>
+      <span class="gpill">Merchant routing</span>
+      <span class="gpill">Request signing</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARROW TO PAYMENT -->
+<div class="pay-arrow">
+  <div class="shaft"></div>
+  <div class="head"></div>
+</div>
+
+<!-- PAYMENT CARDS -->
+<div class="row-label" style="margin-bottom:12px;">Samsung in-house APIs — agentic payment execution</div>
+<div class="payment-row">
+  <div class="pay-card">
+    <span class="pay-icon">🏪</span>
+    <div class="pay-title">SingleStore — Product & Order</div>
+    <div class="pay-desc">
+      Agent calls <strong>SingleStore APIs</strong> to validate product, check inventory, and create the order — fully programmatic, no human touchpoint.
+    </div>
+  </div>
+  <div class="pay-card">
+    <span class="pay-icon">💳</span>
+    <div class="pay-title">Single Checkout — Payment</div>
+    <div class="pay-desc">
+      Agent executes payment via <strong>Samsung's Single Checkout</strong> — secure, authenticated, end-to-end. No redirect. No UPI switch. No form.
+    </div>
+  </div>
+</div>
+
+<!-- RESULT ARROWS -->
+<div class="result-arrows">
+  <div class="result-arrow-line">
+    <div class="arrow-shaft" style="background:linear-gradient(to bottom, var(--gold), #4ade80)"></div>
+    <div class="arrow-head" style="border-top-color:#4ade80"></div>
+  </div>
+  <div class="result-arrow-line">
+    <div class="arrow-shaft" style="background:linear-gradient(to bottom, var(--gold), #4ade80)"></div>
+    <div class="arrow-head" style="border-top-color:#4ade80"></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-row">
+  <div class="result-card">
+    <div class="result-icon">🎉</div>
+    <div class="result-text">
+      <div class="rtitle">Order Confirmed</div>
+      <div class="rdesc">Buyer gets confirmation inside the same chat thread. Never left the conversation.</div>
+    </div>
+  </div>
+  <div class="result-card">
+    <div class="result-icon">🔒</div>
+    <div class="result-text">
+      <div class="rtitle">Payment Secured</div>
+      <div class="rdesc">End-to-end via Samsung APIs. Authenticated. Verifiable. No third-party payment redirect.</div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- LEGEND -->
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--red)"></div>
+      Entry — Chat / Video
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--purple)"></div>
+      AI Agent — LangChain + Ollama
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--teal)"></div>
+      UCP Gateway — Google standard
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:var(--gold)"></div>
+      Samsung APIs — Agentic payment
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#4ade80"></div>
+      Order + Payment confirmed
+    </div>
+  </div>
+
+</body>
+</html>
